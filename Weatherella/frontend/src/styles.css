@@ -1,0 +1,73 @@
+:root{
+  --page-bg: #d0e1e2;
+  --card: #ffffff;
+  --accent: #0ea5a4;
+  --accent-2: #06b6d4;
+  --muted: #6b7280;
+  --text: #102a43;
+  --soft: #f1f5f9;
+  --glass: rgba(16,42,67,0.04);
+}
+
+*{box-sizing:border-box}
+body{font-family:'Poppins',Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial; background:var(--page-bg); color:var(--text); min-height:100vh; margin:0}
+
+/* subtle decorative shapes */
+body::before, body::after{content:"";position:fixed;z-index:0;pointer-events:none;opacity:.7}
+body::before{width:360px;height:360px;background:radial-gradient(circle at 20% 20%, rgba(14,165,164,0.08), transparent 40%);left:-80px;top:-60px}
+body::after{width:480px;height:480px;background:radial-gradient(circle at 80% 80%, rgba(99,102,241,0.06), transparent 40%);right:-100px;bottom:-100px}
+
+.header{padding:2.25rem 1rem 1rem;text-align:center;position:relative;z-index:1}
+.header h1{margin:0;color:var(--text);font-size:2rem}
+.header p{margin-top:6px;color:var(--muted)}
+
+.container{max-width:980px;margin:0 auto;padding:1.25rem;position:relative;z-index:1}
+.controls{display:flex;gap:1rem;align-items:center;margin-bottom:1rem}
+select{padding:.6rem 0.9rem;border-radius:10px;border:1px solid #e6eef6;background:var(--card);color:var(--text);box-shadow:0 4px 12px rgba(16,42,67,0.04)}
+button{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;border:none;padding:.6rem 1rem;border-radius:10px;cursor:pointer;box-shadow:0 8px 20px rgba(14,165,164,0.12)}
+button.secondary{background:#fff;color:var(--accent);border:1px solid #e6eef6}
+label{font-weight:600;color:var(--text);margin-right:6px}
+
+.card{background:var(--card);padding:0;border-radius:16px;box-shadow:0 6px 30px rgba(16,42,67,0.08);overflow:hidden}
+.card-header{display:flex;justify-content:space-between;align-items:center}
+.card-main{display:flex;justify-content:space-between;align-items:center;margin-top:1rem}
+.temp .value{font-size:40px;font-weight:700;color:var(--text)}
+.icon img{width:80px;height:80px}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:1rem}
+.loading,.error{padding:1rem;background:var(--soft);border-radius:8px}
+.footer{text-align:center;padding:2rem;color:var(--muted)}
+
+.umbrella{grid-column:1/-1;padding:0.75rem;border-radius:8px;background:linear-gradient(90deg,#fff7ed,#fff1f0)}
+.umbrella-reason{color:var(--text);margin-top:0.25rem;font-size:0.95rem}
+
+/* Umbrella-focused styles */
+.umbrella-card{padding:0}
+.recommend-banner{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-top-left-radius:16px;border-top-right-radius:16px}
+.recommend-banner .banner-left{display:flex;align-items:center;gap:16px}
+.umbrella-icon{width:64px;height:64px;color:#fff;display:flex;align-items:center;justify-content:center;border-radius:12px}
+.banner-text .banner-title{font-size:1.25rem;font-weight:700;color:var(--text)}
+.banner-sub{font-size:0.95rem;color:var(--muted)}
+.banner-reasons{font-size:0.95rem;color:var(--text)}
+
+.recommend-yes{background:linear-gradient(90deg,#d1fae5,#06b6d4);color:var(--text)}
+.recommend-maybe{background:linear-gradient(90deg,#fff7ed,#fb923c);color:var(--text)}
+.recommend-no{background:linear-gradient(90deg,#ecfeff,#86efac);color:var(--text)}
+.recommend-neutral{background:linear-gradient(90deg,#f1f5f9,#eef2ff);color:var(--text)}
+
+.card-header.compact{padding:12px 18px}
+.card-main.compact{display:flex;justify-content:space-between;align-items:center;padding:14px 18px}
+.temp.small .value.big{font-size:32px}
+.details.subdued{padding:14px 18px;opacity:0.95;color:var(--muted);background:transparent}
+
+/* form controls */
+input[type="checkbox"]{width:18px;height:18px;border-radius:4px;border:1px solid #dbeafe;background:#fff;margin-right:8px}
+select,button,input,textarea{font-family:inherit}
+
+@keyframes float {0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* responsive */
+@media (max-width:720px){
+  .banner-text .banner-title{font-size:1.05rem}
+  .umbrella-icon{width:48px;height:48px}
+}
+
