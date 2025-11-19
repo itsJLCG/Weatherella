@@ -23,9 +23,20 @@ function UmbrellaIcon({ filled = true }) {
   )
 }
 
-export default function WeatherCard({ data }) {
+export default function WeatherCard({ data, onToggleFavorite }) {
   const rec = data.umbrella_recommendation || null
   const scorePct = rec ? Math.round((rec.score || 0) * 100) : null
+  const [isFavorite, setIsFavorite] = React.useState(data.is_favorite || false)
+  const [isTogglingFavorite, setIsTogglingFavorite] = React.useState(false)
+
+  const handleToggleFavorite = async () => {
+    setIsTogglingFavorite(true)
+    const newFavoriteState = await onToggleFavorite(data)
+    if (newFavoriteState !== null) {
+      setIsFavorite(newFavoriteState)
+    }
+    setIsTogglingFavorite(false)
+  }
 
   // Determine banner style
   let bannerClass = 'recommend-neutral'
@@ -61,8 +72,20 @@ export default function WeatherCard({ data }) {
       </div>
 
       <div className="card-header compact">
-        <h2>{data.city_name}, {data.country}</h2>
-        <div className="meta small">{new Date(data.dt * 1000).toLocaleString()}</div>
+        <div className="header-with-favorite">
+          <div>
+            <h2>{data.city_name}, {data.country}</h2>
+            <div className="meta small">{new Date(data.dt * 1000).toLocaleString()}</div>
+          </div>
+          <button 
+            className={`favorite-btn ${isFavorite ? 'favorited' : ''}`}
+            onClick={handleToggleFavorite}
+            disabled={isTogglingFavorite}
+            title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            {isFavorite ? '★' : '☆'}
+          </button>
+        </div>
       </div>
 
       <div className="card-main compact">
