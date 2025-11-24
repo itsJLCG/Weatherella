@@ -78,11 +78,11 @@ export default function Header({ user, onLogout, currentView, onViewChange, onSh
             <div className="header-right">
               <div className="user-profile">
                 <div className="user-avatar">
-                  {user.name.charAt(0).toUpperCase()}
+                  {user.name ? user.name.charAt(0).toUpperCase() : user.email ? user.email.charAt(0).toUpperCase() : '👤'}
                 </div>
                 <div className="user-details">
                   <span className="user-greeting">Welcome back</span>
-                  <span className="user-name">{user.name}</span>
+                  <span className="user-name">{user.name || user.email || 'User'}</span>
                 </div>
               </div>
               <button onClick={onLogout} className="logout-btn">
