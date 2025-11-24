@@ -61,6 +61,24 @@ def get_coordinates_for_city(city_name: str) -> Tuple[float, float]:
     return data[0]["lat"], data[0]["lon"]
 
 
+def get_uv_index(lat: float, lon: float) -> Optional[float]:
+    """Get UV index for coordinates"""
+    api_key = os.environ.get("OPENWEATHER_API_KEY")
+    if not api_key:
+        return None
+    
+    try:
+        # UV Index endpoint (free for current UV)
+        url = f"https://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={api_key}"
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        data = response.json()
+        return data.get("value")
+    except Exception as e:
+        print(f"UV Index fetch error: {e}")
+        return None
+
+
 def get_current_weather_for_city(city_name: str) -> Dict[str, Any]:
     """Get current weather for a city"""
     lat, lon = get_coordinates_for_city(city_name)
@@ -76,6 +94,9 @@ def get_current_weather_for_city(city_name: str) -> Dict[str, Any]:
     response.raise_for_status()
     data = response.json()
     
+    # Fetch UV index separately
+    uv_index = get_uv_index(lat, lon)
+    
     # Map the free API structure to match the expected fields
     weather_data = {
         "dt": data.get("dt"),
@@ -87,7 +108,7 @@ def get_current_weather_for_city(city_name: str) -> Dict[str, Any]:
         "humidity": data.get("main", {}).get("humidity"),
         "dew_point": None,  # Not available in free API
         "clouds": data.get("clouds", {}).get("all"),
-        "uvi": None,  # Not available in free API
+        "uvi": uv_index,  # Fetched from UV Index endpoint
         "visibility": data.get("visibility"),
         "wind_speed": data.get("wind", {}).get("speed"),
         "wind_gust": data.get("wind", {}).get("gust"),
